@@ -20,12 +20,12 @@ import org.cadixdev.lorenz.model.MethodMapping;
 import org.cadixdev.mercury.RewriteContext;
 import org.cadixdev.mercury.analysis.MercuryInheritanceProvider;
 import org.cadixdev.mercury.util.GracefulCheck;
-import org.eclipse.jdt.core.dom.ASTVisitor;
-import org.eclipse.jdt.core.dom.IBinding;
-import org.eclipse.jdt.core.dom.IMethodBinding;
-import org.eclipse.jdt.core.dom.ITypeBinding;
-import org.eclipse.jdt.core.dom.IVariableBinding;
-import org.eclipse.jdt.core.dom.SimpleName;
+import org.cadixdev.mercury.jdt.core.dom.ASTVisitor;
+import org.cadixdev.mercury.jdt.core.dom.IBinding;
+import org.cadixdev.mercury.jdt.core.dom.IMethodBinding;
+import org.cadixdev.mercury.jdt.core.dom.ITypeBinding;
+import org.cadixdev.mercury.jdt.core.dom.IVariableBinding;
+import org.cadixdev.mercury.jdt.core.dom.SimpleName;
 
 /**
  * Remaps only methods and fields.

@@ -17,8 +17,8 @@ import org.cadixdev.bombe.type.signature.FieldSignature;
 import org.cadixdev.bombe.type.signature.MethodSignature;
 import org.cadixdev.mercury.Mercury;
 import org.cadixdev.mercury.util.BombeBindings;
-import org.eclipse.jdt.core.dom.ITypeBinding;
-import org.eclipse.jdt.core.dom.IVariableBinding;
+import org.cadixdev.mercury.jdt.core.dom.ITypeBinding;
+import org.cadixdev.mercury.jdt.core.dom.IVariableBinding;
 
 import java.util.Arrays;
 import java.util.Collection;

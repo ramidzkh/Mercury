@@ -1,0 +1,95 @@
+--- a/org/eclipse/jdt/core/dom/CompilationUnitResolver.java
++++ b/org/eclipse/jdt/core/dom/CompilationUnitResolver.java
+@@ -18,6 +18,7 @@
+ 
+ import java.io.File;
+ import java.io.IOException;
++import java.nio.file.Path;
+ import java.util.ArrayList;
+ import java.util.HashMap;
+ import java.util.Iterator;
+@@ -454,7 +455,7 @@
+ 		}
+ 	}
+ 	public static void parse(
+-			String[] sourceUnits,
++			Path[] sourceUnits,
+ 			String[] encodings,
+ 			FileASTRequestor astRequestor,
+ 			int apiLevel,
+@@ -473,19 +474,15 @@
+ 		SubMonitor subMonitor = SubMonitor.convert(monitor, unitLength);
+ 		for (int i = 0; i < unitLength; i++) {
+ 			SubMonitor iterationMonitor = subMonitor.split(1);
+-			char[] contents = null;
++			char[] contents;
+ 			String encoding = encodings != null ? encodings[i] : null;
+ 			try {
+-				contents = Util.getFileCharContent(new File(sourceUnits[i]), encoding);
++				contents = Util.getPathCharContent(sourceUnits[i], encoding);
+ 			} catch(IOException e) {
+ 				// go to the next unit
+ 				continue;
+ 			}
+-			if (contents == null) {
+-				// go to the next unit
+-				continue;
+-			}
+-			org.eclipse.jdt.internal.compiler.batch.CompilationUnit compilationUnit = new org.eclipse.jdt.internal.compiler.batch.CompilationUnit(contents, sourceUnits[i], encoding);
++			org.eclipse.jdt.internal.compiler.batch.CompilationUnit compilationUnit = new org.eclipse.jdt.internal.compiler.batch.CompilationUnit(contents, sourceUnits[i].toString(), encoding);
+ 			org.eclipse.jdt.internal.compiler.env.ICompilationUnit sourceUnit = compilationUnit;
+ 			CompilationResult compilationResult = new CompilationResult(sourceUnit, 0, 0, compilerOptions.maxProblemsPerUnit);
+ 			CompilationUnitDeclaration compilationUnitDeclaration = parser.dietParse(sourceUnit, compilationResult);
+@@ -512,7 +509,7 @@
+ 			node.setTypeRoot(null);
+ 
+ 			// accept AST
+-			astRequestor.acceptAST(sourceUnits[i], node);
++			astRequestor.acceptAST(sourceUnits[i].toString(), node);
+ 		}
+ 	}
+ 	public static CompilationUnitDeclaration parse(
+@@ -629,7 +626,7 @@
+ 		}
+ 	}
+ 	public static void resolve(
+-			String[] sourceUnits,
++			Path[] sourceUnits,
+ 			String[] encodings,
+ 			String[] bindingKeys,
+ 			FileASTRequestor requestor,
+@@ -989,7 +986,7 @@
+ 	}
+ 
+ 	private void resolve(
+-			String[] sourceCompilationUnits,
++			Path[] sourceCompilationUnits,
+ 			String[] encodings,
+ 			String[] bindingKeys,
+ 			FileASTRequestor astRequestor,
+@@ -1006,21 +1003,17 @@
+ 			org.eclipse.jdt.internal.compiler.env.ICompilationUnit[] sourceUnits = new org.eclipse.jdt.internal.compiler.env.ICompilationUnit[length];
+ 			int count = 0;
+ 			for (int i = 0; i < length; i++) {
+-				char[] contents = null;
++				char[] contents;
+ 				String encoding = encodings != null ? encodings[i] : null;
+-				String sourceUnitPath = sourceCompilationUnits[i];
++				Path sourceUnitPath = sourceCompilationUnits[i];
+ 				try {
+-					contents = Util.getFileCharContent(new File(sourceUnitPath), encoding);
++					contents = Util.getPathCharContent(sourceUnitPath, encoding);
+ 				} catch(IOException e) {
+ 					// go to the next unit
+ 					continue;
+ 				}
+-				if (contents == null) {
+-					// go to the next unit
+-					continue;
++				sourceUnits[count++] = new org.eclipse.jdt.internal.compiler.batch.CompilationUnit(contents, sourceUnitPath.toString(), encoding);
+ 				}
+-				sourceUnits[count++] = new org.eclipse.jdt.internal.compiler.batch.CompilationUnit(contents, sourceUnitPath, encoding);
+-			}
+ 			if (count < length) {
+ 				org.eclipse.jdt.internal.compiler.env.ICompilationUnit[] newArray = new org.eclipse.jdt.internal.compiler.env.ICompilationUnit[count];
+ 				System.arraycopy(sourceUnits, 0, newArray, 0, count);

@@ -1,0 +1,27 @@
+--- a/org/eclipse/jdt/core/dom/FileASTRequestor.java
++++ b/org/eclipse/jdt/core/dom/FileASTRequestor.java
+@@ -15,20 +15,20 @@
+ 
+ /**
+  * An AST requestor handles ASTs for compilation units passed to
+- * {@link ASTParser#createASTs(String[], String[], String[], FileASTRequestor, org.eclipse.core.runtime.IProgressMonitor) ASTParser.createASTs}.
++ * {@link ASTParser#createASTs(java.nio.file.Path[], String[], String[], FileASTRequestor, org.eclipse.core.runtime.IProgressMonitor) ASTParser.createASTs}.
+  * <p>
+  * {@link FileASTRequestor#acceptAST(String, CompilationUnit) FileASTRequestor.acceptAST} is called for each of the
+- * compilation units passed to {@link ASTParser#createASTs(String[], String[], String[], FileASTRequestor, org.eclipse.core.runtime.IProgressMonitor) ASTParser.createASTs}.
++ * compilation units passed to {@link ASTParser#createASTs(java.nio.file.Path[], String[], String[], FileASTRequestor, org.eclipse.core.runtime.IProgressMonitor) ASTParser.createASTs}.
+  * After all the compilation units have been processed,
+  * {@link #acceptBinding(String, IBinding) FileASTRequestor.acceptBinding} is called for each
+- * of the binding keys passed to {@link ASTParser#createASTs(String[], String[], String[], FileASTRequestor, org.eclipse.core.runtime.IProgressMonitor) ASTParser.createASTs}.
++ * of the binding keys passed to {@link ASTParser#createASTs(java.nio.file.Path[], String[], String[], FileASTRequestor, org.eclipse.core.runtime.IProgressMonitor) ASTParser.createASTs}.
+  * </p>
+  * <p>
+  * This class is intended to be subclassed by clients.
+  * AST requestors are serially reusable, but neither reentrant nor thread-safe.
+  * </p>
+  *
+- * @see ASTParser#createASTs(String[], String[], String[], FileASTRequestor, org.eclipse.core.runtime.IProgressMonitor)
++ * @see ASTParser#createASTs(java.nio.file.Path[], String[], String[], FileASTRequestor, org.eclipse.core.runtime.IProgressMonitor)
+  * @since 3.6
+  */
+ public abstract class FileASTRequestor {

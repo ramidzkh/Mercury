@@ -10,8 +10,8 @@
 
 package org.cadixdev.mercury;
 
-import org.eclipse.jdt.core.dom.CompilationUnit;
-import org.eclipse.jdt.core.dom.PackageDeclaration;
+import org.cadixdev.mercury.jdt.core.dom.CompilationUnit;
+import org.cadixdev.mercury.jdt.core.dom.PackageDeclaration;
 import org.eclipse.jface.text.Document;
 
 import java.io.IOException;

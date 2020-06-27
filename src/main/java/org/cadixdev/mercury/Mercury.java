@@ -10,13 +10,13 @@
 
 package org.cadixdev.mercury;
 
-import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.core.dom.AST;
-import org.eclipse.jdt.core.dom.ASTParser;
-import org.eclipse.jdt.core.dom.CompilationUnit;
-import org.eclipse.jdt.core.dom.FileASTRequestor;
-import org.eclipse.jdt.core.dom.IBinding;
-import org.eclipse.jdt.core.dom.ITypeBinding;
+import org.cadixdev.mercury.jdt.core.JavaCore;
+import org.cadixdev.mercury.jdt.core.dom.AST;
+import org.cadixdev.mercury.jdt.core.dom.ASTParser;
+import org.cadixdev.mercury.jdt.core.dom.CompilationUnit;
+import org.cadixdev.mercury.jdt.core.dom.FileASTRequestor;
+import org.cadixdev.mercury.jdt.core.dom.IBinding;
+import org.cadixdev.mercury.jdt.core.dom.ITypeBinding;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -185,18 +185,19 @@ public final class Mercury {
 
         // Set environment
         String[] sourcePath = toArray(this.sourcePath.stream());
-        parser.setEnvironment(toArray(this.classPath.stream()), sourcePath, getEncodings(sourcePath), true);
+        parser.setEnvironment(toArray(this.classPath.stream()), sourcePath, getEncodings(sourcePath.length), true);
 
         // Walk directory to find source files
-        String[] sourceFiles = toArray(Files.walk(this.sourceDir, FileVisitOption.FOLLOW_LINKS)
-                .filter(p -> p.getFileName() != null && p.getFileName().toString().endsWith(JAVA_EXTENSION)));
+        Path[] sourceFiles = Files.walk(this.sourceDir, FileVisitOption.FOLLOW_LINKS)
+                .filter(p -> p.getFileName() != null && p.getFileName().toString().endsWith(JAVA_EXTENSION))
+                .toArray(Path[]::new);
 
         for (SourceProcessor processor : this.processors) {
             processor.initialize(this);
         }
 
         // Parse source files
-        parser.createASTs(sourceFiles, getEncodings(sourceFiles), EMPTY_STRING_ARRAY, this.requestor, null);
+        parser.createASTs(sourceFiles, getEncodings(sourceFiles.length), EMPTY_STRING_ARRAY, this.requestor, null);
 
         for (SourceProcessor processor : this.processors) {
             processor.finish(this);
@@ -230,12 +231,12 @@ public final class Mercury {
     }
 
     // Assume that all files use the same encoding
-    private String[] getEncodings(String[] files) {
-        if (files.length == 0) {
+    private String[] getEncodings(int length) {
+        if (length == 0) {
             return EMPTY_STRING_ARRAY;
         }
 
-        String[] encodings = new String[files.length];
+        String[] encodings = new String[length];
         Arrays.fill(encodings, this.encoding.name());
         return encodings;
     }

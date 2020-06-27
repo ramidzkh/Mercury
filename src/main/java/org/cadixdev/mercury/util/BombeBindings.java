@@ -18,10 +18,10 @@ import org.cadixdev.bombe.type.PrimitiveType;
 import org.cadixdev.bombe.type.Type;
 import org.cadixdev.bombe.type.signature.FieldSignature;
 import org.cadixdev.bombe.type.signature.MethodSignature;
-import org.eclipse.jdt.core.dom.IMethodBinding;
-import org.eclipse.jdt.core.dom.ITypeBinding;
-import org.eclipse.jdt.core.dom.IVariableBinding;
-import org.eclipse.jdt.core.dom.Modifier;
+import org.cadixdev.mercury.jdt.core.dom.IMethodBinding;
+import org.cadixdev.mercury.jdt.core.dom.ITypeBinding;
+import org.cadixdev.mercury.jdt.core.dom.IVariableBinding;
+import org.cadixdev.mercury.jdt.core.dom.Modifier;
 
 import java.util.ArrayList;
 import java.util.List;

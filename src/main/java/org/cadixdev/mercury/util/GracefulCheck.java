@@ -11,7 +11,7 @@
 package org.cadixdev.mercury.util;
 
 import org.cadixdev.mercury.SourceContext;
-import org.eclipse.jdt.core.dom.ITypeBinding;
+import org.cadixdev.mercury.jdt.core.dom.ITypeBinding;
 
 /**
  * Utility for checking gracefully, based on configuration.

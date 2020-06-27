@@ -1,0 +1,27 @@
+--- a/org/eclipse/jdt/internal/compiler/util/Util.java
++++ b/org/eclipse/jdt/internal/compiler/util/Util.java
+@@ -27,6 +27,8 @@
+ import java.io.PrintWriter;
+ import java.io.StringWriter;
+ import java.io.UnsupportedEncodingException;
++import java.nio.file.Files;
++import java.nio.file.Path;
+ import java.util.ArrayList;
+ import java.util.HashSet;
+ import java.util.List;
+@@ -411,6 +413,14 @@
+ 			}
+ 		}
+ 	}
++	public static char[] getPathCharContent(Path path, String encoding) throws IOException {
++		byte[] bytes = Files.readAllBytes(path);
++		if (encoding == null) {
++			return new String(bytes).toCharArray();
++		} else {
++			return new String(bytes, encoding).toCharArray();
++		}
++	}
+\ No newline at end of file
+ 	/**
+ 	 * Returns the contents of the given file as a char array.
+ 	 * When encoding is null, then the platform default one is used

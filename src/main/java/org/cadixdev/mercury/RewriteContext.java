@@ -12,16 +12,16 @@ package org.cadixdev.mercury;
 
 import static org.cadixdev.mercury.Mercury.JAVA_EXTENSION;
 
-import org.cadixdev.mercury.jdt.rewrite.imports.ImportRewrite;
+import org.cadixdev.mercury.jdt.core.dom.rewrite.ImportRewrite;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.jdt.core.dom.CompilationUnit;
-import org.eclipse.jdt.core.dom.rewrite.ASTRewrite;
+import org.cadixdev.mercury.jdt.core.dom.CompilationUnit;
+import org.cadixdev.mercury.jdt.core.dom.rewrite.ASTRewrite;
 import org.eclipse.jface.text.Document;
 import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.text.edits.TextEdit;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -119,13 +119,13 @@ public final class RewriteContext extends SourceContext {
             path = joiner.toString();
         }
 
-        Path outputFile = outputDir.resolve(path);
-        Files.createDirectories(outputFile.getParent());
+        Path outputPath = outputDir.resolve(path);
+        Files.createDirectories(outputPath.getParent());
 
         TextEdit edit = rewrite();
         if (edit == null) {
             // Copy original source file
-            Files.copy(getSourceFile(), outputFile, StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(getSourceFile(), outputPath, StandardCopyOption.REPLACE_EXISTING);
             return;
         }
 
@@ -133,7 +133,7 @@ public final class RewriteContext extends SourceContext {
         Document document = loadDocument();
         edit.apply(document, TextEdit.NONE);
 
-        try (OutputStreamWriter writer = new OutputStreamWriter(Files.newOutputStream(outputFile), getMercury().getEncoding())) {
+        try (BufferedWriter writer = Files.newBufferedWriter(outputPath, getMercury().getEncoding())) {
             writer.write(document.get());
         }
     }

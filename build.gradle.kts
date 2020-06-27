@@ -57,14 +57,12 @@ val extract = task<Copy>("extractJdt") {
     from(Callable { zipTree(configurations["jdt"].singleFile) })
     destinationDir = patches.root
 
-    include("org/eclipse/jdt/core/dom/rewrite/ImportRewrite.java")
-    include("org/eclipse/jdt/internal/core/dom/rewrite/imports/*.java")
+    include("org/eclipse/jdt/**/*.java")
 }
 tasks["applyPatches"].inputs.files(extract)
 
 val renames = listOf(
-        "org.eclipse.jdt.core.dom.rewrite" to "$group.$artifactId.jdt.rewrite.imports",
-        "org.eclipse.jdt.internal.core.dom.rewrite.imports" to "$group.$artifactId.jdt.internal.rewrite.imports"
+        "org.eclipse.jdt" to "$group.$artifactId.jdt"
 )
 
 fun createRenameTask(prefix: String, inputDir: File, outputDir: File, renames: List<Pair<String, String>>): Task

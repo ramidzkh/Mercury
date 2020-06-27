@@ -1,0 +1,19 @@
+--- a/org/eclipse/jdt/core/dom/ASTParser.java
++++ b/org/eclipse/jdt/core/dom/ASTParser.java
+@@ -17,6 +17,7 @@
+ 
+ import java.io.PrintWriter;
+ import java.io.StringWriter;
++import java.nio.file.Path;
+ import java.util.ArrayList;
+ import java.util.HashMap;
+ import java.util.List;
+@@ -993,7 +994,7 @@
+ 	 * are insufficient, contradictory, or otherwise unsupported
+ 	 * @since 3.6
+ 	 */
+-	public void createASTs(String[] sourceFilePaths, String[] encodings, String[] bindingKeys,
++	public void createASTs(Path[] sourceFilePaths, String[] encodings, String[] bindingKeys,
+ 			FileASTRequestor requestor, IProgressMonitor monitor) {
+ 		try {
+ 			int flags = 0;
